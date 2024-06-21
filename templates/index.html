@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plate Number Recognition</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/PR.png') }}" alt="Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Solution</a></li>
+                <li><a href="#">Story</a></li>
+            </ul>
+        </nav>
+    </header>
+ 
+    </div>
+    <div class="container">
+        <h2>Plate Number Recognition Model</h2>
+        <p> <b>Upload any car image type and we will extract the plate number</b></p>
+        <form id="upload-form" method="post" enctype="multipart/form-data">
+            <label for="file-input" class="custom-file-upload">
+                Choose a File
+            </label>
+            <input type="file" name="file" id="file-input" accept="image/*" required>
+            <button type="submit">Upload Image</button>
+        </form>
+        <div id="result" class="result"></div>
+    </div>
+    <div class="testimonials">
+        <h2>What Our Users Say</h2>
+        <p>"This service is fantastic! It recognized the plate number instantly."</p>
+        <p>"Highly recommend this tool for anyone needing quick and accurate plate recognition."</p>
+    </div>
+    <div class="features">
+        <div class="feature-card">
+            <h3>Feature 1</h3>
+            <p>High accuracy plate number recognition.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Feature 2</h3>
+            <p>Supports multiple image formats.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Feature 3</h3>
+            <p>Fast and efficient processing.</p>
+        </div>
+    </div>
+
+
+
+  
+
+    
+    <div class="technologies">
+        <h2>Technologies Used</h2>
+        <div class="tech-card">
+            <img src="{{ url_for('static', filename='images/OD.png') }}" alt="Object Detection">
+            <p>Object Detection - .</p>
+        </div>
+        <div class="tech-card">
+            <img src="{{ url_for('static', filename='images/OCR.jpg') }}" alt="Easyocr">
+            <p>EasyOCR - The OCR tool used for reading text from images.</p>
+        </div>
+        <div class="tech-card">
+            <img src="{{ url_for('static', filename='images/python.jpg') }}" alt="python">
+            <p>Python- Python is used for Deep learning model and App Deployement </p>
+        </div>
+    </div>
+    <footer>
+       
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Plate Number Recognition App. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+            <p>Developed using Flask, EasyOCR, and deep learning technologies.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('upload-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+            var resultDiv = document.getElementById('result');
+
+            fetch('/process_image', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    resultDiv.innerHTML = `<p class="error">${data.error}</p>`;
+                } else {
+                    resultDiv.innerHTML = `<p>Plate Number: ${data.text}</p>`;
+                }
+            })
+            .catch(error => {
+                resultDiv.innerHTML = `<p class="error">An error occurred</p>`;
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
